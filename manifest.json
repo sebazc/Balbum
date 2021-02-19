@@ -1,0 +1,15 @@
+{
+    "manifest_version": 2,
+    "name": "Balbum",
+    "version": "1.0",
+    "description": "This is Bookmarks Album",
+    "browser_action": {
+        "default_popup": "popup.html",
+        "default_title": "This is Balbum"
+    },
+    "options_page": "options.html",
+    "permissions": [
+        "bookmarks",
+        "tabs"
+    ]
+}
