@@ -1,9 +1,11 @@
 
 // Set-up ////////////////////////////////////////
 
-setName();
-setFolder();
+setDefaultName();
+setDefaultFolder();
 isTabBookmarked();
+
+//setCommentsStatus();
 
 // Behaviour ////////////////////////////////////////
 
@@ -44,9 +46,21 @@ document.getElementById("remove_bookmark_button").addEventListener("click", () =
     });
 });
 
+// Update description 
+document.getElementById("update_description_button").addEventListener("click", () => {
+    description = document.getElementById("description").value;
 
+    let data = {};
+    data["de"] = description;
+    chrome.storage.sync.set(data, () => {
+        alert("Description");
+    });
+});
 
-
+// Open popup with folder options
+document.getElementById("folder").addEventListener("click", () => {
+    chrome.windows.create({url: "folder.html", type: "popup"});
+});
 
 // Clear the description field
 document.getElementById("clear_description_button").addEventListener("click", () => {
@@ -59,6 +73,8 @@ document.getElementById("clear_comment_button").addEventListener("click", () => 
     document.getElementById("comment").value = "";
     document.getElementById("comment").focus();
 });
+
+//document.getElementById("name").addEventListener("mouseenter", () => {});
 
 // Declarations ////////////////////////////////////////
 
@@ -76,23 +92,32 @@ function isTabBookmarked() {
                     document.getElementById("folder").value = new_node.title;
                 });
 
+                document.getElementById("name").value = node.title;
                 document.getElementById("remove_bookmark_button").disabled = false;
                 document.getElementById("update_description_button").disabled = false;
                 document.getElementById("add_comment_button").disabled = false;
+
+                document.getElementById("add_bookmark_button").innerHTML = "Update bookmark";
+
+                chrome.storage.sync.get("de", (description)=> {
+                    if(description) {
+                        document.getElementById("description").value = description.de;
+                    }
+                });
             }
         });
     });
 }
 
 // Gets the title of the tab, and put it in the name field
-function setName() {
+function setDefaultName() {
     chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
         document.getElementById("name").value = tabs[0].title;
     });
 }
 
 // Gets the node folder of the last bookmark, and put it in folder field
-function setFolder() {
+function setDefaultFolder() {
     chrome.bookmarks.getRecent(1, (bookmarks) => {
         let parent = bookmarks[0].parentId;
 
@@ -102,7 +127,6 @@ function setFolder() {
         });
     });
 }
-
 
 
 
@@ -119,7 +143,6 @@ function setFolder() {
 
 /*
 
-
 chrome.storage.sync.get('allData', function(data) {
   // check if data exists.
   if (data) {
@@ -133,7 +156,5 @@ chrome.storage.sync.set({'allData': allData}, function() {
   // Notify that we saved.
   message('Settings saved');
 });
-
-
 
 */
