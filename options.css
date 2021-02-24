@@ -1,0 +1,11 @@
+ul li {
+    padding: 4px;
+}
+
+ul li:hover {
+    background-color: #ceebfd;
+}
+
+.section {
+    background-color: #f2f2f2;
+}

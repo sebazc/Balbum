@@ -1,65 +1,78 @@
-
-// Set-up ////////////////////////////////////////
+/******************** SET UP ********************/
 
 setDefaultName();
 setDefaultFolder();
 isTabBookmarked();
 
-//setCommentsStatus();
-
-// Behaviour ////////////////////////////////////////
+/******************** BEHAVIOUR ********************/
 
 // Get focus over add bookmark button
 document.getElementById("add_bookmark_button").focus();
 
 // Add a bookmark for the current tab
 document.getElementById("add_bookmark_button").addEventListener("click", () => {
-    chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         let url = tabs[0].url; // Get url
-        let title = tabs[0].title; // Get title
-        let folder = document.getElementById("folder").value; // Get folder
+        let title = document.getElementById("name").value; // Get name from field
+        let folder = document.getElementById("folder").value; // Get folder from field
 
         chrome.bookmarks.search(folder, (bookmark) => {
             let node = bookmark[0];
 
-            chrome.bookmarks.create({
+            chrome.bookmarks.create({ // Creates the bookmark
                 'title': title,
                 'url': url,
                 'parentId': node.id
             });
+
+            description = document.getElementById("description").value;
+            let data = {};
+            data[`${url}`] = description;
+            chrome.storage.sync.set(data, () => {
+                alert("Description saved");
+            });
+
             window.close();
         });
-    });   
+    });
 });
 
 // Remove bookmark for the current tab
 document.getElementById("remove_bookmark_button").addEventListener("click", () => {
-    chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
-        let url = tabs[0].url;
+    answer = window.confirm("Are you sure you want to remove this bookmark? If so, information will be lost.");
+    if (answer) {
+        chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab
+            let url = tabs[0].url;
 
-        chrome.bookmarks.search(url, (bookmark) => {
-            let node = bookmark[0];
+            chrome.bookmarks.search(url, (bookmark) => { // Get current tab bookmark
+                let node = bookmark[0];
 
-            chrome.bookmarks.remove(node.id); // If there is text in description/comments, ask the user
-            window.close();
+                chrome.bookmarks.remove(node.id); // Remove current tab bookmark
+                chrome.storage.sync.remove(`${url}`); // Remove current tab description
+                window.close();
+            });
         });
-    });
+    }
 });
 
 // Update description 
 document.getElementById("update_description_button").addEventListener("click", () => {
     description = document.getElementById("description").value;
 
-    let data = {};
-    data["de"] = description;
-    chrome.storage.sync.set(data, () => {
-        alert("Description");
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+        let url = tabs[0].url;
+
+        let data = {};
+        data[`${url}`] = description;
+        chrome.storage.sync.set(data, () => {
+            setActivity("Description updated");
+        });
     });
 });
 
 // Open popup with folder options
 document.getElementById("folder").addEventListener("click", () => {
-    chrome.windows.create({url: "folder.html", type: "popup"});
+    chrome.windows.create({ url: "folder.html", type: "popup" });
 });
 
 // Clear the description field
@@ -76,17 +89,17 @@ document.getElementById("clear_comment_button").addEventListener("click", () => 
 
 //document.getElementById("name").addEventListener("mouseenter", () => {});
 
-// Declarations ////////////////////////////////////////
+/******************** DECLARATIONS ********************/
 
 // Check if tab is already bookmarked
 function isTabBookmarked() {
-    chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab
         let url = tabs[0].url;
 
-        chrome.bookmarks.search(url, (bookmark) => {
+        chrome.bookmarks.search(url, (bookmark) => { // Get current tab bookmark - if any
             node = bookmark[0];
 
-            if(node != undefined) { // Is the tab bookmarked? Yes -> execute code
+            if (node != undefined) { // Is the tab bookmarked? Yes -> execute code
                 chrome.bookmarks.get(node.parentId, (new_bookmark) => { // Retrieve correct folder
                     new_node = new_bookmark[0];
                     document.getElementById("folder").value = new_node.title;
@@ -97,11 +110,11 @@ function isTabBookmarked() {
                 document.getElementById("update_description_button").disabled = false;
                 document.getElementById("add_comment_button").disabled = false;
 
-                document.getElementById("add_bookmark_button").innerHTML = "Update bookmark";
+                document.getElementById("add_bookmark_button").disabled = true; // to review
 
-                chrome.storage.sync.get("de", (description)=> {
-                    if(description) {
-                        document.getElementById("description").value = description.de;
+                chrome.storage.sync.get(`${url}`, (data) => { // Retrieve correct description
+                    if (data[`${url}`] != undefined) {
+                        document.getElementById("description").value = data[`${url}`];
                     }
                 });
             }
@@ -111,7 +124,7 @@ function isTabBookmarked() {
 
 // Gets the title of the tab, and put it in the name field
 function setDefaultName() {
-    chrome.tabs.query({active: true, lastFocusedWindow: true}, (tabs) => {
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         document.getElementById("name").value = tabs[0].title;
     });
 }
@@ -128,8 +141,17 @@ function setDefaultFolder() {
     });
 }
 
+// Set activity message after action 
+function setActivity(message) {
+    element = document.getElementById("message");
+    element.innerText = `${message}`;
+    element.style.color = "green";
 
-
+    setTimeout(() => {
+        element.innerText = "";
+        //document.getElementById("activity").innerText = "Activity: ";
+    }, 2000);
+}
 
 ///////////////////////////////////
 
@@ -137,24 +159,3 @@ function setDefaultFolder() {
 // on close, si description o comment esta completo, preguntar si bookmark
 
 // Create a bookmark folder
-
-
-
-
-/*
-
-chrome.storage.sync.get('allData', function(data) {
-  // check if data exists.
-  if (data) {
-      allData = data;
-  } else {
-      allData[Object.keys(allData).length] = currentData;
-  }
-});
-
-chrome.storage.sync.set({'allData': allData}, function() {
-  // Notify that we saved.
-  message('Settings saved');
-});
-
-*/
