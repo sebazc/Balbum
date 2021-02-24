@@ -32,10 +32,15 @@ window.onclick = (element) => {
                 <p>Date added: <span id="${element.target.id}dateAdded"></span></p><br>
 
                 <label>Description:</label><br>
-                <textarea id="${element.target.id}descriptionField" rows="5" cols="100"></textarea>
+                <textarea id="${element.target.id}descriptionField" rows="5" cols="100"></textarea><br><br>
+                <button id="${element.target.id}update_description_button" class="update_button">Update description</button>
+                <button id="${element.target.id}clear_button" class="clear_button">Clear</button><span id="${element.target.id}span_message"></span>
 
             `;
 
+
+            document.getElementById(`${element.target.id}clear_button`).addEventListener("click", clear_function);
+            document.getElementById(`${element.target.id}update_description_button`).addEventListener("click", update_function);
 
             chrome.bookmarks.get(element.target.id, (node) => { // Get bookmark for this item   
                 let url = node[0].url;
@@ -48,9 +53,6 @@ window.onclick = (element) => {
 
                 chrome.storage.sync.get(url, (data) => { // Gets the description
                     if (data[`${url}`] != undefined) {
-                        
-                        
-                        
                         document.getElementById(`${element.target.id}descriptionField`).value = data[`${url}`];
                     }
                 });
@@ -62,6 +64,7 @@ window.onclick = (element) => {
         }
     }
 };
+
 
 /* DECLARATIONS */
 
@@ -75,7 +78,7 @@ function printList(list, parents) { // add link, does it have information, || li
         let itemSection = document.createElement("li");
 
         itemElement.setAttribute("id", `${list[i].id}`);
-        itemElement.innerHTML = `${parents[i].title} / ${list[i].title}`;
+        itemElement.innerHTML = `${parents[i].title} / ${list[i].title} <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen"></span>`;
 
         itemSection.setAttribute("id", `${list[i].id}-section`);
         itemSection.setAttribute("class", "section");
@@ -84,8 +87,8 @@ function printList(list, parents) { // add link, does it have information, || li
 
 
         chrome.storage.sync.get(list[i].url, (data) => { // Gets the description
-            if (data[`${list[i].url}`] != undefined) {
-                itemElement.innerHTML = `${parents[i].title} / ${list[i].title} <span style="color:#66ff33; background-color:darkgreen">(+ Information)</span>`;
+            if (data[`${list[i].url}`] != undefined && data[`${list[i].url}`] != "") {
+                itemElement.innerHTML = `${parents[i].title} / ${list[i].title} <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen">(+ Information)</span>`;
             }
         }); //#66ff33
 
@@ -97,5 +100,49 @@ function printList(list, parents) { // add link, does it have information, || li
     document.getElementById("list").append(listContainer); // Div includes div element
 }
 
+// Clear description
+function clear_function() {
+    let str = `${this.id}`.split("c");
+    document.getElementById(`${str[0]}descriptionField`).value = "";
+    document.getElementById(`${str[0]}descriptionField`).focus();
+}
 
+// Update description
+function update_function() {
+    let str = `${this.id}`.split("u");
+    //document.getElementById(`${str[0]}descriptionField`).value = "";
+    //document.getElementById(`${str[0]}descriptionField`).focus();
 
+    chrome.bookmarks.get(str[0], (bookmark) => {
+        let data = {};
+        let description = document.getElementById(`${str[0]}descriptionField`).value;
+
+        data[`${bookmark[0].url}`] = description;
+        chrome.storage.sync.set(data, () => {
+
+            //alert(description);//data[`${bookmark[0].url}`]);
+            if (data[`${bookmark[0].url}`] = undefined || data[`${bookmark[0].url}`] == "") {
+                document.getElementById(`${str[0]}span_info`).innerHTML = "";
+            } else {
+                document.getElementById(`${str[0]}span_info`).innerHTML = "(+ Information)";
+            }
+            
+        });
+        /* chrome.storage.sync.get(`${bookmark[0].url}`, (new_data) => {
+            
+        }); */
+    });
+
+    message = document.getElementById(`${str[0]}span_message`);
+            message.innerText = " Description updated";
+            message.style.color = "green";
+
+            setTimeout(() => {
+                message.innerText = "";
+            }, 2000);
+}
+
+// Reload
+document.getElementById("refresh_button").addEventListener("click", () => {
+    location.reload();
+});

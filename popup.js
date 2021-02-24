@@ -149,7 +149,6 @@ function setActivity(message) {
 
     setTimeout(() => {
         element.innerText = "";
-        //document.getElementById("activity").innerText = "Activity: ";
     }, 2000);
 }
 
