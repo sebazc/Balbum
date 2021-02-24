@@ -97,11 +97,11 @@ function isTabBookmarked() {
         let url = tabs[0].url;
 
         chrome.bookmarks.search(url, (bookmark) => { // Get current tab bookmark - if any
-            node = bookmark[0];
+            let node = bookmark[0];
 
             if (node != undefined) { // Is the tab bookmarked? Yes -> execute code
                 chrome.bookmarks.get(node.parentId, (new_bookmark) => { // Retrieve correct folder
-                    new_node = new_bookmark[0];
+                    let new_node = new_bookmark[0];
                     document.getElementById("folder").value = new_node.title;
                 });
 
