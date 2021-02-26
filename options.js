@@ -88,7 +88,7 @@ function printList(list, parents) { // add link, does it have information, || li
 
         chrome.storage.sync.get(list[i].url, (data) => { // Gets the description
             if (data[`${list[i].url}`] != undefined && data[`${list[i].url}`] != "") {
-                itemElement.innerHTML = `${parents[i].title} / ${list[i].title} <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen">(+ Information)</span>`;
+                itemElement.innerHTML = `${parents[i].title} / ${list[i].title} <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen">(+ Information)</span> <span id="${list[i].id}span_text">${data[`${list[i].url}`]}</span>`; 
             }
         }); //#66ff33
 
@@ -110,8 +110,6 @@ function clear_function() {
 // Update description
 function update_function() {
     let str = `${this.id}`.split("u");
-    //document.getElementById(`${str[0]}descriptionField`).value = "";
-    //document.getElementById(`${str[0]}descriptionField`).focus();
 
     chrome.bookmarks.get(str[0], (bookmark) => {
         let data = {};
@@ -128,9 +126,6 @@ function update_function() {
             }
             
         });
-        /* chrome.storage.sync.get(`${bookmark[0].url}`, (new_data) => {
-            
-        }); */
     });
 
     message = document.getElementById(`${str[0]}span_message`);
@@ -145,4 +140,9 @@ function update_function() {
 // Reload
 document.getElementById("refresh_button").addEventListener("click", () => {
     location.reload();
+});
+
+// Open Chrome Bookmarks Manager
+document.getElementById("open_bm_button").addEventListener("click", () => {
+    window.open("chrome://bookmarks/", "_blank");
 });

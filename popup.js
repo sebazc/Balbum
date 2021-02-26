@@ -16,30 +16,37 @@ document.getElementById("add_bookmark_button").addEventListener("click", () => {
         let title = document.getElementById("name").value; // Get name from field
         let folder = document.getElementById("folder").value; // Get folder from field
 
-        chrome.bookmarks.search(folder, (bookmark) => {
-            let node = bookmark[0];
+        chrome.bookmarks.search(`${folder}`, (bookmark) => {
+            if (bookmark[0].title === folder) {
+                let node = bookmark[0]; //alert(node.id);
 
-            chrome.bookmarks.create({ // Creates the bookmark
-                'title': title,
-                'url': url,
-                'parentId': node.id
-            });
+                chrome.bookmarks.create({ // Creates the bookmark
+                    'title': title,
+                    'url': url,
+                    'parentId': node.id
+                });
 
-            description = document.getElementById("description").value;
-            let data = {};
-            data[`${url}`] = description;
-            chrome.storage.sync.set(data, () => {
-                alert("Description saved");
-            });
+                description = document.getElementById("description").value;
+                let data = {};
+                data[`${url}`] = description;
+                chrome.storage.sync.set(data, () => {
+                    document.getElementById("remove_bookmark_button").disabled = false;
+                    document.getElementById("update_description_button").disabled = false;
+                    document.getElementById("add_comment_button").disabled = false;
 
-            window.close();
+                    document.getElementById("add_bookmark_button").disabled = true; // to review
+                    setActivity("Bookmark added"); //window.close();
+                });
+
+
+            } else { setActivity("Bookmark could not be added"); }
         });
     });
 });
 
 // Remove bookmark for the current tab
 document.getElementById("remove_bookmark_button").addEventListener("click", () => {
-    answer = window.confirm("Are you sure you want to remove this bookmark? If so, information will be lost.");
+    let answer = window.confirm("Are you sure you want to remove this bookmark? If so, information will be lost.");
     if (answer) {
         chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab
             let url = tabs[0].url;
