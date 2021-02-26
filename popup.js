@@ -16,7 +16,7 @@ document.getElementById("add_bookmark_button").addEventListener("click", () => {
         let title = document.getElementById("name").value; // Get name from field
         let folder = document.getElementById("folder").value; // Get folder from field
 
-        chrome.bookmarks.search(`${folder}`, (bookmark) => {
+        chrome.bookmarks.search(`${folder}`, (bookmark) => { // Searches parent bookmark to get id to add
             if (bookmark[0].title === folder) {
                 let node = bookmark[0]; //alert(node.id);
 
@@ -78,9 +78,9 @@ document.getElementById("update_description_button").addEventListener("click", (
 });
 
 // Open popup with folder options
-document.getElementById("folder").addEventListener("click", () => {
+/* document.getElementById("folder").addEventListener("click", () => {
     chrome.windows.create({ url: "folder.html", type: "popup" });
-});
+}); */
 
 // Clear the description field
 document.getElementById("clear_description_button").addEventListener("click", () => {
@@ -109,13 +109,22 @@ function isTabBookmarked() {
             if (node != undefined) { // Is the tab bookmarked? Yes -> execute code
                 chrome.bookmarks.get(node.parentId, (new_bookmark) => { // Retrieve correct folder
                     let new_node = new_bookmark[0];
-                    document.getElementById("folder").value = new_node.title;
+                    //document.getElementById("folder").value = new_node.title;
+
+                    let option = document.createElement("option");
+                    option.value = new_node.title;
+                    option.innerHTML = new_node.title;
+                    option.selected = "selected";
+                    document.getElementById("folder").append(option);
+
                 });
 
                 document.getElementById("name").value = node.title;
                 document.getElementById("remove_bookmark_button").disabled = false;
                 document.getElementById("update_description_button").disabled = false;
                 document.getElementById("add_comment_button").disabled = false;
+                document.getElementById("comment").disabled = false;
+                document.getElementById("clear_comment_button").disabled = false;
 
                 document.getElementById("add_bookmark_button").disabled = true; // to review
 
@@ -138,12 +147,44 @@ function setDefaultName() {
 
 // Gets the node folder of the last bookmark, and put it in folder field
 function setDefaultFolder() {
-    chrome.bookmarks.getRecent(1, (bookmarks) => {
-        let parent = bookmarks[0].parentId;
+    chrome.bookmarks.getRecent(100, (bookmarks) => { // 100 -> -> recent bookmarks
+        let parents = [];
 
-        chrome.bookmarks.get(parent, (folders) => {
-            node = folders[0].title;
-            document.getElementById("folder").value = node;
+        bookmarks.forEach((item) => { // Gets list of parent ids
+            parents.push(item.parentId);
+        });
+
+        chrome.bookmarks.get(parents, (folders) => { // parent ids -> -> parent bookmarks
+            let index = 0; // for getting up to 8 options
+            let list = []; // To control there are not repeated options
+
+            for (let j = 0; j < parents.length; j++) {
+                if (index === 8) {
+                    break;
+                }
+
+                let node = folders[j].title;
+
+                let option = document.createElement("option");
+                option.value = node;
+                option.innerHTML = node;
+
+                if (j === 0) {
+                    option.selected = "selected";
+                    document.getElementById("folder").append(option);
+                    index++;
+                    list.push(folders[j].id);
+                    continue;
+                }
+
+                //alert(folders[j].title);
+                if (!(list.includes(folders[j].id))) { // check if current item title = title of previous item
+                    document.getElementById("folder").append(option);
+                    index++;
+                    list.push(folders[j].id);
+                }
+            }
+
         });
     });
 }
