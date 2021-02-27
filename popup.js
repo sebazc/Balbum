@@ -16,8 +16,8 @@ document.getElementById("add_bookmark_button").addEventListener("click", () => {
         let title = document.getElementById("name").value; // Get name from field
         let folder = document.getElementById("folder").value; // Get folder from field
 
-        chrome.bookmarks.search(`${folder}`, (bookmark) => { // Searches parent bookmark to get id to add
-            if (bookmark[0].title === folder) {
+        chrome.bookmarks.get(folder, (bookmark) => {
+            if (bookmark[0].id === folder) {
                 let node = bookmark[0]; //alert(node.id);
 
                 chrome.bookmarks.create({ // Creates the bookmark
@@ -33,13 +33,13 @@ document.getElementById("add_bookmark_button").addEventListener("click", () => {
                     document.getElementById("remove_bookmark_button").disabled = false;
                     document.getElementById("update_description_button").disabled = false;
                     document.getElementById("add_comment_button").disabled = false;
+                    document.getElementById("comment").disabled = false;
+                    document.getElementById("clear_comment_button").disabled = false;
 
                     document.getElementById("add_bookmark_button").disabled = true; // to review
                     setActivity("Bookmark added"); //window.close();
                 });
-
-
-            } else { setActivity("Bookmark could not be added"); }
+            } else { alert(bookmark[0].title); setActivity("Bookmark could not be added"); }
         });
     });
 });
@@ -78,9 +78,19 @@ document.getElementById("update_description_button").addEventListener("click", (
 });
 
 // Open popup with folder options
-/* document.getElementById("folder").addEventListener("click", () => {
-    chrome.windows.create({ url: "folder.html", type: "popup" });
-}); */
+document.getElementById("folders_button").addEventListener("click", () => {
+    chrome.windows.create({ 
+        url: "folder.html", 
+        type: "popup",
+        height: 500, 
+        width: 800
+    });
+});
+
+// Open options page from button
+document.getElementById("options_button").addEventListener("click", () => {
+    chrome.runtime.openOptionsPage();
+});
 
 // Clear the description field
 document.getElementById("clear_description_button").addEventListener("click", () => {
@@ -163,11 +173,9 @@ function setDefaultFolder() {
                     break;
                 }
 
-                let node = folders[j].title;
-
                 let option = document.createElement("option");
-                option.value = node;
-                option.innerHTML = node;
+                option.value = folders[j].id;
+                option.innerHTML = folders[j].title;
 
                 if (j === 0) {
                     option.selected = "selected";

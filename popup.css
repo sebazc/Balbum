@@ -1,0 +1,15 @@
+#remove_bookmark_button {
+    color: red;
+}
+
+#remove_bookmark_button:disabled {
+    color: lightgrey;
+}
+
+#add_bookmark_button {
+    color: green;
+}
+
+#add_bookmark_button:disabled {
+    color: lightgray;
+}

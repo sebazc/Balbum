@@ -144,5 +144,5 @@ document.getElementById("refresh_button").addEventListener("click", () => {
 
 // Open Chrome Bookmarks Manager
 document.getElementById("open_bm_button").addEventListener("click", () => {
-    window.open("chrome://bookmarks/", "_blank");
+    chrome.tabs.create({ url: "chrome://bookmarks/" })
 });
