@@ -137,7 +137,7 @@ function update_function() {
             }, 2000);
 }
 
-// Reload
+// Reload page
 document.getElementById("refresh_button").addEventListener("click", () => {
     location.reload();
 });

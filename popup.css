@@ -13,3 +13,11 @@
 #add_bookmark_button:disabled {
     color: lightgray;
 }
+
+#folder { 
+    width:160px
+}
+
+#name {
+    text-overflow: ellipsis;
+}

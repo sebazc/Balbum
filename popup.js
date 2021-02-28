@@ -104,7 +104,9 @@ document.getElementById("clear_comment_button").addEventListener("click", () => 
     document.getElementById("comment").focus();
 });
 
-//document.getElementById("name").addEventListener("mouseenter", () => {});
+/* document.getElementById("name").addEventListener("mouseenter", () => {
+    this.setAttribute("title", this.innerHTML);
+}, false); */
 
 /******************** DECLARATIONS ********************/
 
@@ -152,6 +154,7 @@ function isTabBookmarked() {
 function setDefaultName() {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         document.getElementById("name").value = tabs[0].title;
+        document.getElementById("name").setAttribute("title", tabs[0].title);
     });
 }
 
