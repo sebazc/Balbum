@@ -21,3 +21,8 @@
 #name {
     text-overflow: ellipsis;
 }
+
+#title {
+    font-family: "Leckerli One"; /* #80F */
+    font-size: 30px;
+}
