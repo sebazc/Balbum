@@ -8,7 +8,7 @@ chrome.bookmarks.getRecent(1000, (bookmarks) => {
     });
 
     chrome.bookmarks.get(parentBookmarksId, (parentBookmarks) => {
-        
+
         for (let i = 0; i < parentBookmarks.length; i++) {
 
             let item = document.createElement("li");
@@ -24,3 +24,17 @@ chrome.bookmarks.getRecent(1000, (bookmarks) => {
 
 
 });
+
+// Send choosed option to popup
+document.getElementById("choose_button").addEventListener("click", (tab) => {
+    chrome.tabs.getCurrent((tab) => {
+        let message = {
+            type: "a_message_type",
+            foo: "bar"
+        };
+        chrome.runtime.sendMessage(message, () => {
+            window.close();
+        });
+    });
+});
+

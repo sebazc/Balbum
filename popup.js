@@ -79,13 +79,23 @@ document.getElementById("update_description_button").addEventListener("click", (
 
 // Open popup with folder options
 document.getElementById("folders_button").addEventListener("click", () => {
-    chrome.windows.create({ 
-        url: "folder.html", 
+    chrome.windows.create({
+        url: "folder.html",
         type: "popup",
-        height: 500, 
+        height: 500,
         width: 800
     });
 });
+
+// Listens to folder popup 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    document.getElementById("description").value = message.foo;
+});
+
+
+
+
+
 
 // Open options page from button
 document.getElementById("options_button").addEventListener("click", () => {

@@ -1,0 +1,13 @@
+.navbar {
+
+    background-color: #333;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    
+}
+
+.navbar button {
+    height: 40px;
+}
