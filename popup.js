@@ -14,7 +14,7 @@ document.getElementById("add_bookmark_button").addEventListener("click", () => {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         let url = tabs[0].url; // Get url
         let title = document.getElementById("name").value; // Get name from field
-        let folder = document.getElementById("folder").value; // Get folder from field
+        let folder = document.getElementById("folder").value; // Get folder (option value) from field
 
         chrome.bookmarks.get(folder, (bookmark) => {
             if (bookmark[0].id === folder) {
@@ -37,7 +37,7 @@ document.getElementById("add_bookmark_button").addEventListener("click", () => {
                     document.getElementById("clear_comment_button").disabled = false;
 
                     document.getElementById("add_bookmark_button").disabled = true; // to review
-                    setActivity("Bookmark added"); //window.close();
+                    setActivity("Bookmark added"); window.close();
                 });
             } else { alert(bookmark[0].title); setActivity("Bookmark could not be added"); }
         });
@@ -89,8 +89,16 @@ document.getElementById("folders_button").addEventListener("click", () => {
 
 // Listens to folder popup 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    document.getElementById("description").value = message.foo;
+    if (message.foo != undefined) {
+        let option = document.createElement("option");
+        option.value = message.id;
+        option.innerHTML = message.foo;
+        option.selected = "selected";
+        document.getElementById("folder").append(option);
+    }
 });
+
+
 
 
 
@@ -129,16 +137,18 @@ function isTabBookmarked() {
             let node = bookmark[0];
 
             if (node != undefined) { // Is the tab bookmarked? Yes -> execute code
-                chrome.bookmarks.get(node.parentId, (new_bookmark) => { // Retrieve correct folder
+                chrome.bookmarks.get(node.parentId, (new_bookmark) => { // Retrieve correct bookmark folder
                     let new_node = new_bookmark[0];
                     //document.getElementById("folder").value = new_node.title;
+                    /* 
+                                        let option = document.createElement("option");
+                                        option.value = new_node.title;
+                                        option.innerHTML = new_node.title;
+                                        option.selected = "selected";
+                                        document.getElementById("folder").append(option); */
 
-                    let option = document.createElement("option");
-                    option.value = new_node.title;
-                    option.innerHTML = new_node.title;
-                    option.selected = "selected";
-                    document.getElementById("folder").append(option);
-
+                    let dropdown = document.getElementById("folder");
+                    dropdown.innerHTML = `<option id="${new_node.id}">${new_node.title}</option>`;
                 });
 
                 document.getElementById("name").value = node.title;
@@ -148,7 +158,10 @@ function isTabBookmarked() {
                 document.getElementById("comment").disabled = false;
                 document.getElementById("clear_comment_button").disabled = false;
 
+                document.getElementById("folders_button").disabled = true;
                 document.getElementById("add_bookmark_button").disabled = true; // to review
+
+
 
                 chrome.storage.sync.get(`${url}`, (data) => { // Retrieve correct description
                     if (data[`${url}`] != undefined) {

@@ -11,3 +11,15 @@
 .navbar button {
     height: 40px;
 }
+
+ul li:hover {
+    background-color: #ceebfd;
+}
+
+ul li:target {
+    background-color: #ceebfd;
+}
+
+.selected {
+    background-color: #ceebfd;
+}
