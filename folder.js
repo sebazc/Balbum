@@ -34,9 +34,8 @@ document.getElementById("choose_button").addEventListener("click", (tab) => {
             foo: optionSelected,
             id: optionId
         };
-        chrome.runtime.sendMessage(message, () => {
-            window.close();
-        });
+        chrome.runtime.sendMessage(message, () => {});
+        window.close();
     });
 });
 
@@ -74,8 +73,9 @@ document.addEventListener("dblclick", (element) => {
             id: optionId
         };
         chrome.runtime.sendMessage(message, () => {
-            window.close();
+            
         });
+        window.close();
     }
 });
 

@@ -32,9 +32,9 @@ document.getElementById("add_bookmark_button").addEventListener("click", () => {
                 chrome.storage.sync.set(data, () => {
                     document.getElementById("remove_bookmark_button").disabled = false;
                     document.getElementById("update_description_button").disabled = false;
-                    document.getElementById("add_comment_button").disabled = false;
-                    document.getElementById("comment").disabled = false;
-                    document.getElementById("clear_comment_button").disabled = false;
+                    //document.getElementById("add_comment_button").disabled = false;
+                    //document.getElementById("comment").disabled = false;
+                    //document.getElementById("clear_comment_button").disabled = false;
 
                     document.getElementById("add_bookmark_button").disabled = true; // to review
                     setActivity("Bookmark added"); window.close();
@@ -46,7 +46,7 @@ document.getElementById("add_bookmark_button").addEventListener("click", () => {
 
 // Remove bookmark for the current tab
 document.getElementById("remove_bookmark_button").addEventListener("click", () => {
-    let answer = window.confirm("Are you sure you want to remove this bookmark? If so, information will be lost.");
+    let answer = window.confirm("Are you sure you want to remove this bookmark?\nIf you do so, information will be lost.");
     if (answer) {
         chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab
             let url = tabs[0].url;
@@ -107,7 +107,8 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 // Open options page from button
 document.getElementById("options_button").addEventListener("click", () => {
-    chrome.runtime.openOptionsPage();
+    //chrome.runtime.openOptionsPage();
+    window.open("options.html", "_blank")
 });
 
 // Clear the description field
@@ -117,10 +118,10 @@ document.getElementById("clear_description_button").addEventListener("click", ()
 });
 
 // Clear the comment field
-document.getElementById("clear_comment_button").addEventListener("click", () => {
+/* document.getElementById("clear_comment_button").addEventListener("click", () => {
     document.getElementById("comment").value = "";
     document.getElementById("comment").focus();
-});
+}); */
 
 /* document.getElementById("name").addEventListener("mouseenter", () => {
     this.setAttribute("title", this.innerHTML);
@@ -154,9 +155,9 @@ function isTabBookmarked() {
                 document.getElementById("name").value = node.title;
                 document.getElementById("remove_bookmark_button").disabled = false;
                 document.getElementById("update_description_button").disabled = false;
-                document.getElementById("add_comment_button").disabled = false;
-                document.getElementById("comment").disabled = false;
-                document.getElementById("clear_comment_button").disabled = false;
+                //document.getElementById("add_comment_button").disabled = false;
+                //document.getElementById("comment").disabled = false;
+                //document.getElementById("clear_comment_button").disabled = false;
 
                 document.getElementById("folders_button").disabled = true;
                 document.getElementById("add_bookmark_button").disabled = true; // to review
