@@ -23,8 +23,6 @@ window.onclick = (element) => {
     spanInfo = document.getElementById(`${element.target.id}`).id.split("s")[0];
     spanText = document.getElementById(`${element.target.id}`).id.split("s")[0];
 
-
-
     if (section != null || spanInfo != null || spanText != null) { // Check whether the element clicked has a section element
         if (spanInfo != null) {itemId = element.target.id;}
         if (spanInfo != null) {section = document.getElementById(`${spanInfo}-section`); itemId = spanInfo;}
