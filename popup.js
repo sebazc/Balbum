@@ -159,6 +159,7 @@ function isTabBookmarked() {
                 //document.getElementById("comment").disabled = false;
                 //document.getElementById("clear_comment_button").disabled = false;
 
+                document.getElementById("description").placeholder = "Add a description";
                 document.getElementById("folders_button").disabled = true;
                 document.getElementById("add_bookmark_button").disabled = true; // to review
 
