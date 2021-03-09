@@ -13,16 +13,16 @@ Features:
 
 Bookmark a page you like:
 
-![textSADFSDF](.\readme\1.PNG)
+![image1](./readme/1.PNG)
 
 Select a folder if necessary!
 
-![textSADFSDF](.\readme\2.PNG)
+![image2](./readme/2.PNG)
 
 Add or update a description:
 
-![textSADFSDF](.\readme\3.PNG)
+![image3](./readme/3.PNG)
 
 See your bookmarks and bookmarsk comments on them:
 
-![textSADFSDF](.\readme\4.PNG)
+![image4](./readme/4.PNG)
