@@ -12,7 +12,8 @@
         "bookmarks",
         "tabs",
         "storage",
-        "notifications"
+        "notifications",
+        "downloads"
     ],
     "icons": {
         "16": "icon-16.png",

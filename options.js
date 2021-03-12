@@ -19,16 +19,21 @@ chrome.bookmarks.getRecent(10000, (tree) => {
 
 // Opens the information section for the bookmark
 window.onclick = (element) => {
-    section = document.getElementById(`${element.target.id}-section`);
-    spanInfo = document.getElementById(`${element.target.id}`).id.split("s")[0];
-    spanText = document.getElementById(`${element.target.id}`).id.split("s")[0];
+    let section = null;
+    let itemId = null;
 
-    if (section != null || spanInfo != null || spanText != null) { // Check whether the element clicked has a section element
-        if (spanInfo != null) {itemId = element.target.id;}
-        if (spanInfo != null) {section = document.getElementById(`${spanInfo}-section`); itemId = spanInfo;}
-        if (spanText != null) {section = document.getElementById(`${spanText}-section`); itemId = spanText;}
+    if (element.target.tagName === "LI") {
+        itemId = element.target.id;
+        section = document.getElementById(`${element.target.id}-section`); 
+    }
 
-        if (section.style.display === "none") { // Check if opening section: Yes -> execute
+    if (element.target.tagName === "SPAN") {
+        itemId = document.getElementById(`${element.target.id}`).id.split("s")[0];
+        section = document.getElementById(`${itemId}-section`);
+    }
+
+    if (section != null) { // Check whether the element clicked has a section element
+        if (section.style.display === "none") { // Check if section is open: Yes -> execute // section.style.display
             section.style.display = "block";
             document.getElementById(`${itemId}`).style.fontWeight = "bold";
 
@@ -41,9 +46,7 @@ window.onclick = (element) => {
                 <textarea id="${itemId}descriptionField" rows="5" cols="100"></textarea><br><br>
                 <button id="${itemId}update_description_button" class="update_button">Update description</button>
                 <button id="${itemId}clear_button" class="clear_button">Clear</button><span id="${itemId}span_message"></span>
-
             `;
-
 
             document.getElementById(`${itemId}clear_button`).addEventListener("click", clear_function);
             document.getElementById(`${itemId}update_description_button`).addEventListener("click", update_function);
@@ -153,4 +156,19 @@ document.getElementById("refresh_button").addEventListener("click", () => {
 // Open Chrome Bookmarks Manager
 document.getElementById("open_bm_button").addEventListener("click", () => {
     chrome.tabs.create({ url: "chrome://bookmarks/" })
+});
+
+document.getElementById("export_descriptions").addEventListener("click", () => {
+    //alert("hello");
+    chrome.storage.local.get(null, function(items) { // null implies all items
+        // Convert object to a string.
+        var result = JSON.stringify(items);
+    
+        // Save as file
+        var url = 'data:application/json;base64,' + btoa(result);
+        chrome.downloads.download({
+            url: url,
+            filename: 'filename_of_exported_file.json'
+        });
+    });
 });
