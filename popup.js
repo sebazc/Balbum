@@ -11,7 +11,7 @@ document.getElementById("add_bookmark_button").focus();
 
 // Add a bookmark for the current tab
 document.getElementById("add_bookmark_button").addEventListener("click", () => {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         let url = tabs[0].url; // Get url
         let title = document.getElementById("name").value; // Get name from field
         let folder = document.getElementById("folder").value; // Get folder (option value) from field

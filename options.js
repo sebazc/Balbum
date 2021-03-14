@@ -1,6 +1,8 @@
 /* SET UP */
 
 
+// #FFFF99 folder color
+
 
 /* BEHAVIOUR */
 
@@ -87,7 +89,7 @@ function printList(list, parents) { // add link, does it have information, || li
         let itemSection = document.createElement("li");
 
         itemElement.setAttribute("id", `${list[i].id}`);
-        itemElement.innerHTML = `${parents[i].title} / ${list[i].title} <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen"></span> <span id="${list[i].id}span_text"></span>`;
+        itemElement.innerHTML = `<span class="span_folder" id="${list[i].id}span_folder">${parents[i].title}</span> / <span class="span_title" id="${list[i].id}span_title">${list[i].title}</span> <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen"></span> <span class="span_text" id="${list[i].id}span_text"></span>`;
 
         itemSection.setAttribute("id", `${list[i].id}-section`);
         itemSection.setAttribute("class", "section");
@@ -97,7 +99,7 @@ function printList(list, parents) { // add link, does it have information, || li
 
         chrome.storage.sync.get(list[i].url, (data) => { // Gets the description
             if (data[`${list[i].url}`] != undefined && data[`${list[i].url}`] != "") {
-                itemElement.innerHTML = `${parents[i].title} / ${list[i].title} <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen">(+ Information)</span> <span id="${list[i].id}span_text">${data[`${list[i].url}`]}</span>`; 
+                itemElement.innerHTML = `<span class="span_folder" id="${list[i].id}span_folder">${parents[i].title}</span> / <span class="span_title" id="${list[i].id}span_title">${list[i].title}</span> <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen">(+ Information)</span> <span class="span_text" id="${list[i].id}span_text">${data[`${list[i].url}`]}</span>`; 
             }
         }); //#66ff33
 
@@ -160,15 +162,17 @@ document.getElementById("open_bm_button").addEventListener("click", () => {
 
 document.getElementById("export_descriptions").addEventListener("click", () => {
     //alert("hello");
-    chrome.storage.local.get(null, function(items) { // null implies all items
+    chrome.storage.local.get(null, items => { // null implies all items
         // Convert object to a string.
+//        alert(items[0]);
         var result = JSON.stringify(items);
     
+        alert(JSON.stringify(window.localStorage));
         // Save as file
-        var url = 'data:application/json;base64,' + btoa(result);
+        /* var url = 'data:application/json;base64,' + btoa(result);
         chrome.downloads.download({
             url: url,
             filename: 'filename_of_exported_file.json'
-        });
+        }); */
     });
 });
