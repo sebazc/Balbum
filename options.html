@@ -6,15 +6,18 @@
 </head>
 
 <body>
-    <h1>Balbum</h1>
+    <h1 id="bar">Balbum</h1>
+
     <button id="refresh_button">Refresh</button> 
     <button id="open_bm_button">Bookmarks Manager</button>
-    <button id="export_descriptions">Export Descriptions</button>
-
-    <div id="list">
-        <ul></ul>
+    <button id="download_page">Download as HTML</button>
+    <div style="display: inline;" class="search-container">
+        <input type="text" id="searchInput" placeholder="Search...">
     </div>
 
+    <div id="list">
+        <ul id="unordered_list"></ul>
+    </div>
 </body>
 <script type="text/javascript" src="options.js"></script>
 <link rel="stylesheet" href="options.css">

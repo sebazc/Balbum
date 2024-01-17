@@ -26,7 +26,7 @@ window.onclick = (element) => {
 
     if (element.target.tagName === "LI") {
         itemId = element.target.id;
-        section = document.getElementById(`${element.target.id}-section`); 
+        section = document.getElementById(`${element.target.id}-section`);
     }
 
     if (element.target.tagName === "SPAN") {
@@ -99,7 +99,7 @@ function printList(list, parents) { // add link, does it have information, || li
 
         chrome.storage.sync.get(list[i].url, (data) => { // Gets the description
             if (data[`${list[i].url}`] != undefined && data[`${list[i].url}`] != "") {
-                itemElement.innerHTML = `<span class="span_folder" id="${list[i].id}span_folder">${parents[i].title}</span> / <span class="span_title" id="${list[i].id}span_title">${list[i].title}</span> <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen">(+ Information)</span> <span class="span_text" id="${list[i].id}span_text">${data[`${list[i].url}`]}</span>`; 
+                itemElement.innerHTML = `<span class="span_folder" id="${list[i].id}span_folder">${parents[i].title}</span> / <span class="span_title" id="${list[i].id}span_title">${list[i].title}</span> <span id="${list[i].id}span_info" style="color:#66ff33; background-color:darkgreen; margin-right: 5px; margin-left: 10px; border-radius: 25px; padding-right: 10px; padding-left: 5px;">+ Comment </span> <span class="span_text" id="${list[i].id}span_text">${data[`${list[i].url}`]}</span>`;
             }
         }); //#66ff33
 
@@ -135,19 +135,19 @@ function update_function() {
                 document.getElementById(`${str[0]}span_text`).innerHTML = "";
             } else {
                 document.getElementById(`${str[0]}span_info`).innerHTML = "(+ Information)";
-                document.getElementById(`${str[0]}span_text`).innerHTML = description; 
+                document.getElementById(`${str[0]}span_text`).innerHTML = description;
             }
-            
+
         });
     });
 
     message = document.getElementById(`${str[0]}span_message`);
-            message.innerText = " Description updated";
-            message.style.color = "green";
+    message.innerText = " Description updated";
+    message.style.color = "green";
 
-            setTimeout(() => {
-                message.innerText = "";
-            }, 2000);
+    setTimeout(() => {
+        message.innerText = "";
+    }, 2000);
 }
 
 // Reload page
@@ -160,19 +160,31 @@ document.getElementById("open_bm_button").addEventListener("click", () => {
     chrome.tabs.create({ url: "chrome://bookmarks/" })
 });
 
-document.getElementById("export_descriptions").addEventListener("click", () => {
-    //alert("hello");
-    chrome.storage.local.get(null, items => { // null implies all items
-        // Convert object to a string.
-//        alert(items[0]);
-        var result = JSON.stringify(items);
-    
-        alert(JSON.stringify(window.localStorage));
-        // Save as file
-        /* var url = 'data:application/json;base64,' + btoa(result);
-        chrome.downloads.download({
-            url: url,
-            filename: 'filename_of_exported_file.json'
-        }); */
-    });
-});
+// Download button
+function save_page() {
+    const data = "<!DOCTYPE html>\n" + document.documentElement.outerHTML; // See sources below for why this gets the entire page content.
+    const link = document.createElement('a');
+    link.setAttribute('download', 'balbum_bookmarks.html');
+    link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(data));
+    link.click(); // In my tests, there was no need to add the element to the document for this to work.
+}
+
+document.getElementById("download_page").addEventListener("click", save_page);
+
+// document.getElementById('searchInput').addEventListener('input', function () {
+//     filterItems();
+// });
+
+// function filterItems() {
+//     const searchInput = document.getElementById('searchInput').value.toLowerCase();
+//     const items = document.getElementById('unordered_list').getElementsByTagName('li');
+
+//     for (let i = 0; i < items.length; i++) {
+//         const currentItem = items[i].textContent.toLowerCase();
+//         if (currentItem.includes(searchInput)) {
+//             items[i].style.display = 'block';
+//         } else {
+//             items[i].style.display = 'none';
+//         }
+//     }
+// }
