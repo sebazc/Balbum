@@ -19,7 +19,7 @@ chrome.bookmarks.getRecent(10000, (tree) => {
     });
 });
 
-// Opens the information section for the bookmark
+// Opens the information section for a bookmark when it is clicked
 window.onclick = (element) => {
     let section = null;
     let itemId = null;

@@ -18,6 +18,20 @@ ul li:hover {
     font-style: italic;
 }
 
+.span_comment {
+    font-style: italic;
+}
+
+.span_comment_flag {
+    color:#66ff33; 
+    background-color:darkgreen;
+    margin-right: 5px; 
+    margin-left: 10px; 
+    border-radius: 25px; 
+    padding-right: 10px; 
+    padding-left: 5px;
+}
+
 #bar {
     background-color: blueviolet;
     color: white;
@@ -27,4 +41,8 @@ ul li:hover {
 
 body {
     margin: 0;
+}
+
+#refresh_button {
+    margin-left: 10px;
 }
