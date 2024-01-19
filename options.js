@@ -47,8 +47,7 @@ window.onclick = (element) => {
                 <label>Description:</label><br>
                 <textarea id="${itemId}descriptionField" rows="5" cols="100"></textarea><br><br>
                 <button id="${itemId}update_description_button" class="update_button">Update description</button>
-                <button id="${itemId}clear_button" class="clear_button">Clear</button><span id="${itemId}span_message"></span>
-            `;
+                <button id="${itemId}clear_button" class="clear_button">Clear</button><span id="${itemId}span_message"></span>`
 
             document.getElementById(`${itemId}clear_button`).addEventListener("click", clear_function);
             document.getElementById(`${itemId}update_description_button`).addEventListener("click", update_function);

@@ -6,13 +6,31 @@
 </head>
 
 <body>
-    <h1 id="bar">Balbum</h1>
+    <div class="overallContainer">
+        <h1 id="bar">Balbum</h1>
 
-    <button id="refresh_button">Refresh</button> 
-    <button id="open_bm_button">Bookmarks Manager</button>
-    <button id="download_page">Download as HTML</button>
-    <div style="display: inline;" class="search-container">
-        <input type="text" id="searchInput" placeholder="Search...">
+        <div class="buttons">
+            <button id="refresh_button">Refresh</button> 
+            <button id="open_bm_button">Bookmarks Manager</button>
+            <button id="download_page">Download as HTML</button>
+            <div style="display: inline;" class="search-container">
+                <input type="text" id="searchInput" placeholder="Search in general...">
+            </div>
+            <div style="display: inline;" class="search-container-title">
+                <input type="text" id="searchInputTitle" placeholder="Search only in titles...">
+            </div>
+            <div style="display: inline;" class="search-container-comment">
+                <input type="text" id="searchInputComment" placeholder="Search only in comments...">
+            </div>
+            <div style="display: inline;" class="only_commented_checkbox">
+                <label for="only_commented">Only commented</label>
+                <input type="checkbox" id="only_commented" name="only_commented" />
+            </div>
+            <div style="display: inline;" class="expand_all_checkbox">
+                <label for="expand_all_checkbox">Expand all</label>
+                <input type="checkbox" id="expand_all_checkbox" name="expand_all_checkbox" />
+            </div>
+        </div>
     </div>
 
     <div id="list">
@@ -21,5 +39,4 @@
 </body>
 <script type="text/javascript" src="options2.js"></script>
 <link rel="stylesheet" href="options.css">
-
 </html>
