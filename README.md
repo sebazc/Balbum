@@ -23,21 +23,21 @@ As any extension which is not installed from the Chrome Web Store, it must be lo
 
 1. Select the folder where the code was downloaded after the first step.
 
-# Use Cases
+# Screenshots
 
-Bookmark a page you like:
+Balbum's pop up:
 
 ![image1](./readme_assets/1.PNG)
 
-Select a folder if necessary!
+Options page:
 
 ![image2](./readme_assets/2.PNG)
 
-Add or update a description:
+Updating a description in the options page:
 
 ![image3](./readme_assets/3.PNG)
 
-See your bookmarks and bookmarsk comments on them:
+Using the filters:
 
 ![image4](./readme_assets/4.PNG)
 
