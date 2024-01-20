@@ -11,9 +11,7 @@
     "permissions": [
         "bookmarks",
         "tabs",
-        "storage",
-        "notifications",
-        "downloads"
+        "storage"
     ],
     "icons": {
         "16": "icon-16.png",
