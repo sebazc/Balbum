@@ -13,7 +13,7 @@ Features:
 
 Click on the image to be directed to the Chrome Web Store.
 
-[<img alt="Get it on Chrome Web Store" height="80" src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png" />](https://chromewebstore.google.com/detail/balbum/oflpnbndgaoiibkkkefleihboojbgbij)
+[<img alt="Available in the Chrome Web Store" target="_blank" height="80" src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png" />](https://chromewebstore.google.com/detail/balbum/oflpnbndgaoiibkkkefleihboojbgbij)
 
 
 # Screenshots
