@@ -9,19 +9,12 @@ Features:
 * Balbum works hand in hand with Chrome bookmarks. Your current bookmarks are considered by the app, and new bookmarks added from the extension will be considered by Chrome.
 * Balbum stores data using localstorage.
 
-# How to use it locally in your computer
+# Download
 
-As any extension which is not installed from the Chrome Web Store, it must be loaded to the browser as an extension manually. This can be done with the following steps:
+Click on the image to be directed to the Chrome Web Store.
 
-1. In your pc, clone the github repository: ```git clone https://github.com/sebazc/Balbum.git```
+[<img alt="Get it on Chrome Web Store" height="80" src="https://storage.googleapis.com/web-dev-uploads/image/WlD8wC6g8khYWPJUsQceQkhXSlv1/mPGKYBIR2uCP0ApchDXE.png" />](https://chromewebstore.google.com/detail/balbum/oflpnbndgaoiibkkkefleihboojbgbij)
 
-1. In your browser, got to **chrome://extensions/**.
-
-1. Then turn on **Developer mode**.
-
-1. Click on **Load unpacked**.
-
-1. Select the folder where the code was downloaded after the first step.
 
 # Screenshots
 
