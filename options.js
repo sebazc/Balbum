@@ -40,10 +40,11 @@ chrome.bookmarks.getRecent(100000, (retrievedBookmarkList) => {
                 <a id="${bookmarkNode.id}_urlLink" href=${bookmarkNode.url} target="_blank">${bookmarkNode.url}</a><br>
                 <p>Date added: <span id="${bookmarkNode.id}_dateAdded">${Date(bookmarkNode.dateAdded)}</span></p><br>
 
-                <label>Description:</label><br>
+                <label>Comments:</label><br>
                 <textarea id="${bookmarkNode.id}_descriptionField" rows="5" cols="100"></textarea><br><br>
                 <button id="${bookmarkNode.id}_update_description_button" class="update_button">Update description</button>
-                <button id="${bookmarkNode.id}_clear_button" class="clear_button">Clear</button><span id="${bookmarkNode.id}_span_message"></span>`
+                <button id="${bookmarkNode.id}_clear_button" class="clear_button">Clear</button><span id="${bookmarkNode.id}_span_message"></span>
+                <button id="${bookmarkNode.id}_remove_button" class="remove_button" style="margin-left: 508px; color: red;">Remove</button>`
 
 
                 listItemTitle.innerHTML = listItemSpanFolder + listItemSeparator + listItemSpanTitle + listItemSpanCommentFlag + listItemSpanComment
@@ -72,7 +73,7 @@ chrome.bookmarks.getRecent(100000, (retrievedBookmarkList) => {
 window.onclick = (element) => {
     if (element.target.tagName === "LI") {
         elementId = element.target.id
-        console.log(elementId)
+        // console.log(elementId)
         testElement = document.getElementById(`${elementId}_body`)
 
         if (testElement.style.display !== 'none') {
@@ -82,8 +83,9 @@ window.onclick = (element) => {
             document.getElementById(`${elementId}_descriptionField`).focus();
         }
 
-        document.getElementById(`${elementId}_clear_button`).addEventListener("click", clear_function);
-        document.getElementById(`${elementId}_update_description_button`).addEventListener("click", update_function);
+        document.getElementById(`${elementId}_clear_button`).addEventListener("click", clear_function)
+        document.getElementById(`${elementId}_update_description_button`).addEventListener("click", update_function)
+        document.getElementById(`${elementId}_remove_button`).addEventListener("click", remove_function)
 
     }
     if (element.target.tagName === "SPAN" || element.target.tagName === "DIV") {
@@ -98,9 +100,9 @@ window.onclick = (element) => {
             document.getElementById(`${realElementId}_descriptionField`).focus();
         }
 
-        document.getElementById(`${realElementId}_clear_button`).addEventListener("click", clear_function);
-        document.getElementById(`${realElementId}_update_description_button`).addEventListener("click", update_function);
-
+        document.getElementById(`${realElementId}_clear_button`).addEventListener("click", clear_function)
+        document.getElementById(`${realElementId}_update_description_button`).addEventListener("click", update_function)
+        document.getElementById(`${realElementId}_remove_button`).addEventListener("click", remove_function)
     }
 }
 
@@ -134,16 +136,40 @@ function update_function() {
         });
     });
 
-    message = document.getElementById(`${str[0]}_span_message`);
-    message.innerText = " Description updated";
-    message.style.color = "green";
-    message.style.paddingLeft = "10px";
+    message = document.getElementById(`${str[0]}_span_message`)
+    message.innerText = " Description updated"
+    message.style.color = "green"
+    message.style.paddingLeft = "10px"
+    document.getElementById(`${str[0]}_remove_button`).style.marginLeft = "386.5px"
     setTimeout(() => {
-        message.innerText = "";
+        message.innerText = ""
+        message.style.paddingLeft = "0px"
+        document.getElementById(`${str[0]}_remove_button`).style.marginLeft = "508px"
     }, 2000);
 }
 
-// BUTTONS
+// Remove bookmark
+function remove_function() {
+    let str = `${this.id}`.split("_");
+    let to_remove_url = document.getElementById(`${str[0]}_urlLink`).getAttribute('href')
+    let to_remove_list_item = document.getElementById(`${str[0]}`)
+
+    let answer = window.confirm("Are you sure you want to remove this bookmark?\nIf you do so, comments will be lost.");
+    if (answer) {
+        // console.log(str[0])
+        // console.log(to_remove_url)
+        // console.log(to_remove_list_item)
+
+        // remover bookmark con id
+        chrome.bookmarks.remove(str[0])
+        // remover local storage con url
+        chrome.storage.sync.remove(`${to_remove_url}`)
+        // remover list item
+        to_remove_list_item.remove()
+    }
+}
+
+// BUTTONS AT THE TOP
 
 // Refresh button functionality. It refreshes the page
 refreshButton.addEventListener("click", () => {
@@ -205,6 +231,7 @@ searchInputComments.addEventListener("input", e => {
     })
 })
 
+// Show list items with comments only
 onlyCheckbox.addEventListener("change", () => {
     if (onlyCheckbox.checked) {
         const itemList = document.querySelector("#unordered_list").querySelectorAll('li')
@@ -223,6 +250,7 @@ onlyCheckbox.addEventListener("change", () => {
     }
 })
 
+// Expand/contract all list items
 expandAllCheckbox.addEventListener("change", () => {
     if (expandAllCheckbox.checked) {
         const itemList = document.querySelector("#unordered_list").querySelectorAll('li')
