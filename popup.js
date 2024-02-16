@@ -6,8 +6,8 @@ isTabBookmarked();
 
 /******************** BEHAVIOUR ********************/
 
-// Get focus over add bookmark button
-document.getElementById("add_bookmark_button").focus();
+// Get focus over description textbox
+document.getElementById("description").focus();
 
 // Add a bookmark for the current tab
 document.getElementById("add_bookmark_button").addEventListener("click", () => {
@@ -46,7 +46,7 @@ document.getElementById("add_bookmark_button").addEventListener("click", () => {
 
 // Remove bookmark for the current tab
 document.getElementById("remove_bookmark_button").addEventListener("click", () => {
-    let answer = window.confirm("Are you sure you want to remove this bookmark?\nIf you do so, information will be lost.");
+    let answer = window.confirm("Are you sure you want to remove this bookmark?\nIf you do so, comments will be lost.");
     if (answer) {
         chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab
             let url = tabs[0].url;
@@ -78,14 +78,14 @@ document.getElementById("update_description_button").addEventListener("click", (
 });
 
 // Open popup with folder options
-document.getElementById("folders_button").addEventListener("click", () => {
-    chrome.windows.create({
-        url: "folder.html",
-        type: "popup",
-        height: 500,
-        width: 800
-    });
-});
+// document.getElementById("folders_button").addEventListener("click", () => {
+//     chrome.windows.create({
+//         url: "folder.html",
+//         type: "popup",
+//         height: 500,
+//         width: 800
+//     });
+// });
 
 // Listens to folder popup 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -160,13 +160,14 @@ function isTabBookmarked() {
                 //document.getElementById("clear_comment_button").disabled = false;
 
                 document.getElementById("description").placeholder = "Add a description";
-                document.getElementById("folders_button").disabled = true;
+                //document.getElementById("folders_button").disabled = true;
                 document.getElementById("add_bookmark_button").disabled = true; // to review
 
 
 
                 chrome.storage.sync.get(`${url}`, (data) => { // Retrieve correct description
                     if (data[`${url}`] != undefined) {
+                        console.log("hello")
                         document.getElementById("description").value = data[`${url}`];
                     }
                 });

@@ -2,11 +2,15 @@
     "manifest_version": 3,
     "name": "Balbum",
     "version": "1.0",
-    "description": "Bookmarks Album",
+    "description": "Bookmarks Album. Add comments to yours bookmarks.",
     "action": {
         "default_popup": "popup.html",
         "default_title": "This is Balbum"
     },
+    "background": {
+        "service_worker": "service-worker.js",
+        "type": "module"
+      },
     "options_page": "options.html",
     "permissions": [
         "bookmarks",

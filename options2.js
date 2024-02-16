@@ -7,12 +7,8 @@ const searchInputTitle = document.querySelector("#searchInputTitle")
 const searchInputComments = document.querySelector("#searchInputComment")
 const onlyCheckbox = document.querySelector("#only_commented")
 const expandAllCheckbox = document.querySelector("#expand_all_checkbox")
-// const updateDescriptionButton = document.querySelector()
-// const clearButton = 
 
 const bookmarksList = document.querySelector("#unordered_list") // List of bookmarks in page
-
-
 
 // Prints the bookmark list
 chrome.bookmarks.getRecent(100000, (retrievedBookmarkList) => {
@@ -69,8 +65,6 @@ chrome.bookmarks.getRecent(100000, (retrievedBookmarkList) => {
         bookmarksList.append(listItem)
     })
 })
-
-
 
 // INTERACTABILITY
 
@@ -141,11 +135,11 @@ function update_function() {
     message = document.getElementById(`${str[0]}_span_message`);
     message.innerText = " Description updated";
     message.style.color = "green";
+    message.style.paddingLeft = "10px";
     setTimeout(() => {
         message.innerText = "";
     }, 2000);
 }
-
 
 // BUTTONS
 
@@ -194,7 +188,6 @@ searchInputTitle.addEventListener("input", e => {
         item.hidden = !isVisible
     })
 })
-
 
 // Search field for commented functionality
 searchInputComments.addEventListener("input", e => {
