@@ -79,6 +79,7 @@ window.onclick = (element) => {
             testElement.style.display = 'none'
         } else {
             testElement.style.display = ''
+            document.getElementById(`${elementId}_descriptionField`).focus();
         }
 
         document.getElementById(`${elementId}_clear_button`).addEventListener("click", clear_function);
@@ -94,6 +95,7 @@ window.onclick = (element) => {
             testElement.style.display = 'none'
         } else {
             testElement.style.display = ''
+            document.getElementById(`${realElementId}_descriptionField`).focus();
         }
 
         document.getElementById(`${realElementId}_clear_button`).addEventListener("click", clear_function);
