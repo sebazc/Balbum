@@ -46,12 +46,10 @@ chrome.bookmarks.getRecent(100000, (retrievedBookmarkList) => {
                 <button id="${bookmarkNode.id}_clear_button" class="clear_button">Clear</button><span id="${bookmarkNode.id}_span_message"></span>
                 <button id="${bookmarkNode.id}_remove_button" class="remove_button" style="margin-left: 508px; color: red;">Remove</button>`
 
-
                 listItemTitle.innerHTML = listItemSpanFolder + listItemSeparator + listItemSpanTitle + listItemSpanCommentFlag + listItemSpanComment
                 listItemBody.innerHTML = listItemDescription
 
                 if (data[`${bookmarkNode.url}`] != undefined && data[`${bookmarkNode.url}`] != "") {
-
                     listItemSpanCommentFlag = `<span id="${bookmarkNode.id}_span_comment_flag" class="span_comment_flag">+ Comment </span>`
                     listItemSpanComment = `<span class="span_comment" id="${bookmarkNode.id}_span_comment">${data[`${bookmarkNode.url}`]}</span>`
 
@@ -73,7 +71,6 @@ chrome.bookmarks.getRecent(100000, (retrievedBookmarkList) => {
 window.onclick = (element) => {
     if (element.target.tagName === "LI") {
         elementId = element.target.id
-        // console.log(elementId)
         testElement = document.getElementById(`${elementId}_body`)
 
         if (testElement.style.display !== 'none') {
@@ -86,7 +83,6 @@ window.onclick = (element) => {
         document.getElementById(`${elementId}_clear_button`).addEventListener("click", clear_function)
         document.getElementById(`${elementId}_update_description_button`).addEventListener("click", update_function)
         document.getElementById(`${elementId}_remove_button`).addEventListener("click", remove_function)
-
     }
     if (element.target.tagName === "SPAN" || element.target.tagName === "DIV") {
         falseElementId = element.target.id
@@ -132,7 +128,6 @@ function update_function() {
                 document.getElementById(`${str[0]}_span_comment`).innerHTML = description;
                 document.getElementById(`${str[0]}_span_comment_flag`).setAttribute("class", "span_comment_flag")
             }
-
         });
     });
 
@@ -156,16 +151,9 @@ function remove_function() {
 
     let answer = window.confirm("Are you sure you want to remove this bookmark?\nIf you do so, comments will be lost.");
     if (answer) {
-        // console.log(str[0])
-        // console.log(to_remove_url)
-        // console.log(to_remove_list_item)
-
-        // remover bookmark con id
-        chrome.bookmarks.remove(str[0])
-        // remover local storage con url
-        chrome.storage.sync.remove(`${to_remove_url}`)
-        // remover list item
-        to_remove_list_item.remove()
+        chrome.bookmarks.remove(str[0]) // remover bookmark con id
+        chrome.storage.sync.remove(`${to_remove_url}`) // remover local storage con url
+        to_remove_list_item.remove() // remover list item
     }
 }
 

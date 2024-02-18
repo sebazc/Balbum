@@ -1,8 +1,8 @@
 /******************** SET UP ********************/
 
-setDefaultName();
-setDefaultFolder();
-isTabBookmarked();
+setDefaultName()
+setDefaultFolder()
+isTabBookmarked()
 
 /******************** BEHAVIOUR ********************/
 
@@ -77,34 +77,6 @@ document.getElementById("update_description_button").addEventListener("click", (
     });
 });
 
-// Open popup with folder options
-// document.getElementById("folders_button").addEventListener("click", () => {
-//     chrome.windows.create({
-//         url: "folder.html",
-//         type: "popup",
-//         height: 500,
-//         width: 800
-//     });
-// });
-
-// Listens to folder popup 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.foo != undefined) {
-        let option = document.createElement("option");
-        option.value = message.id;
-        option.innerHTML = message.foo;
-        option.selected = "selected";
-        document.getElementById("folder").append(option);
-    }
-});
-
-
-
-
-
-
-
-
 // Open options page from button
 document.getElementById("options_button").addEventListener("click", () => {
     //chrome.runtime.openOptionsPage();
@@ -117,37 +89,18 @@ document.getElementById("clear_description_button").addEventListener("click", ()
     document.getElementById("description").focus();
 });
 
-// Clear the comment field
-/* document.getElementById("clear_comment_button").addEventListener("click", () => {
-    document.getElementById("comment").value = "";
-    document.getElementById("comment").focus();
-}); */
-
-/* document.getElementById("name").addEventListener("mouseenter", () => {
-    this.setAttribute("title", this.innerHTML);
-}, false); */
-
 /******************** DECLARATIONS ********************/
 
 // Check if tab is already bookmarked
 function isTabBookmarked() {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab
-        let url = tabs[0].url;
+        let url = tabs[0].url
 
         chrome.bookmarks.search(url, (bookmark) => { // Get current tab bookmark - if any
-            let node = bookmark[0];
-
-            if (node != undefined) { // Is the tab bookmarked? Yes -> execute code
+            let node = bookmark[0]
+            if (node != undefined && node.url == url) { // Is the tab bookmarked? Yes -> execute code
                 chrome.bookmarks.get(node.parentId, (new_bookmark) => { // Retrieve correct bookmark folder
                     let new_node = new_bookmark[0];
-                    //document.getElementById("folder").value = new_node.title;
-                    /* 
-                                        let option = document.createElement("option");
-                                        option.value = new_node.title;
-                                        option.innerHTML = new_node.title;
-                                        option.selected = "selected";
-                                        document.getElementById("folder").append(option); */
-
                     let dropdown = document.getElementById("folder");
                     dropdown.innerHTML = `<option id="${new_node.id}">${new_node.title}</option>`;
                 });
@@ -159,11 +112,8 @@ function isTabBookmarked() {
                 //document.getElementById("comment").disabled = false;
                 //document.getElementById("clear_comment_button").disabled = false;
 
-                document.getElementById("description").placeholder = "Add a description";
-                //document.getElementById("folders_button").disabled = true;
+                document.getElementById("description").placeholder = "Add a comment";
                 document.getElementById("add_bookmark_button").disabled = true; // to review
-
-
 
                 chrome.storage.sync.get(`${url}`, (data) => { // Retrieve correct description
                     if (data[`${url}`] != undefined) {
@@ -237,9 +187,4 @@ function setActivity(message) {
     }, 2000);
 }
 
-///////////////////////////////////
-
-
-// on close, si description o comment esta completo, preguntar si bookmark
-
-// Create a bookmark folder
+//////////////////////////////////////////////////////////////////////
