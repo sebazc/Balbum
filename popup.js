@@ -62,17 +62,17 @@ document.getElementById("remove_bookmark_button").addEventListener("click", () =
     }
 });
 
-// Update description 
+// Update comments textbox 
 document.getElementById("update_description_button").addEventListener("click", () => {
-    description = document.getElementById("description").value;
+    description = document.getElementById("description").value
 
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
-        let url = tabs[0].url;
+        let url = tabs[0].url
 
-        let data = {};
-        data[`${url}`] = description;
+        let data = {}
+        data[`${url}`] = description
         chrome.storage.sync.set(data, () => {
-            setActivity("Description updated");
+            setActivity("Description updated")
         });
     });
 });
@@ -93,17 +93,20 @@ document.getElementById("clear_description_button").addEventListener("click", ()
 
 // Check if tab is already bookmarked
 function isTabBookmarked() {
-    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab
+    chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab url
         let url = tabs[0].url
 
         chrome.bookmarks.search(url, (bookmark) => { // Get current tab bookmark - if any
             let node = bookmark[0]
-            if (node != undefined && node.url == url) { // Is the tab bookmarked? Yes -> execute code
+            if (node != undefined && node.url == url) { // Is the tab bookmarked? Yes -> execute code below
                 chrome.bookmarks.get(node.parentId, (new_bookmark) => { // Retrieve correct bookmark folder
                     let new_node = new_bookmark[0];
                     let dropdown = document.getElementById("folder");
                     dropdown.innerHTML = `<option id="${new_node.id}">${new_node.title}</option>`;
                 });
+
+                document.getElementById("name").disabled = true
+                document.getElementById("folder").disabled = true
 
                 document.getElementById("name").value = node.title;
                 document.getElementById("remove_bookmark_button").disabled = false;
