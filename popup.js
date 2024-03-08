@@ -95,9 +95,11 @@ document.getElementById("clear_description_button").addEventListener("click", ()
 function isTabBookmarked() {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab url
         let url = tabs[0].url
+        // alert(url)
 
         chrome.bookmarks.search(url, (bookmark) => { // Get current tab bookmark - if any
             let node = bookmark[0]
+            // alert(node.url)
             if (node != undefined && node.url == url) { // Is the tab bookmarked? Yes -> execute code below
                 chrome.bookmarks.get(node.parentId, (new_bookmark) => { // Retrieve correct bookmark folder
                     let new_node = new_bookmark[0];
@@ -105,22 +107,17 @@ function isTabBookmarked() {
                     dropdown.innerHTML = `<option id="${new_node.id}">${new_node.title}</option>`;
                 });
 
+                // Set up pop up fields status
                 document.getElementById("name").disabled = true
                 document.getElementById("folder").disabled = true
-
                 document.getElementById("name").value = node.title;
                 document.getElementById("remove_bookmark_button").disabled = false;
                 document.getElementById("update_description_button").disabled = false;
-                //document.getElementById("add_comment_button").disabled = false;
-                //document.getElementById("comment").disabled = false;
-                //document.getElementById("clear_comment_button").disabled = false;
-
                 document.getElementById("description").placeholder = "Add a comment";
                 document.getElementById("add_bookmark_button").disabled = true; // to review
 
-                chrome.storage.sync.get(`${url}`, (data) => { // Retrieve correct description
+                chrome.storage.sync.get(`${url}`, (data) => { // Retrieve comments
                     if (data[`${url}`] != undefined) {
-                        console.log("hello")
                         document.getElementById("description").value = data[`${url}`];
                     }
                 });
