@@ -62,6 +62,14 @@ ul li:hover {
     background-color: #ceebfd;
 }
 
+/* body:has(.item_body:hover) ul li:hover {
+    background-color: white;
+} */
+
+/* body:has(.item_body:hover) ul li .item_title {
+    background-color: #ceebfd;
+} */
+
 .section {
     background-color: #f2f2f2;
 }

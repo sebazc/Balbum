@@ -20,7 +20,9 @@ chrome.bookmarks.getRecent(100000, (retrievedBookmarkList) => {
 
         listItem.setAttribute("id", `${bookmarkNode.id}`)
         listItem.setAttribute("class", "item")
+        listItem.setAttribute("class", "item_parent")
         listItemTitle.setAttribute("id", `${bookmarkNode.id}_title`)
+        listItemTitle.setAttribute("class", "item_title")
         listItemBody.setAttribute("id", `${bookmarkNode.id}_body`)
         listItemBody.setAttribute('style', 'display: none')
 
@@ -36,9 +38,9 @@ chrome.bookmarks.getRecent(100000, (retrievedBookmarkList) => {
                 let listItemSpanComment = `<span id="${bookmarkNode.id}_span_comment" class="span_comment"></span>`
 
                 let listItemDescription = `
-                <label>URL:<\label><br>
+                <label>URL:</label><br>
                 <a id="${bookmarkNode.id}_urlLink" href=${bookmarkNode.url} target="_blank">${bookmarkNode.url}</a><br>
-                <p>Date added: <span id="${bookmarkNode.id}_dateAdded">${Date(bookmarkNode.dateAdded)}</span></p><br>
+                <p id="${bookmarkNode.id}_dateAdded">Date added: ${Date(bookmarkNode.dateAdded)}</p><br>
 
                 <label>Comments:</label><br>
                 <textarea id="${bookmarkNode.id}_descriptionField" rows="5" cols="100"></textarea><br><br>
@@ -73,9 +75,9 @@ window.onclick = (element) => {
         elementId = element.target.id
         testElement = document.getElementById(`${elementId}_body`)
 
-        if (testElement.style.display !== 'none') {
+        if (testElement.style.display !== 'none') { // if displayed
             testElement.style.display = 'none'
-        } else {
+        } else { // if not displayed
             testElement.style.display = ''
             document.getElementById(`${elementId}_descriptionField`).focus();
         }
@@ -89,9 +91,9 @@ window.onclick = (element) => {
         realElementId = document.getElementById(`${falseElementId}`).id.split("_")[0]
         testElement = document.getElementById(`${realElementId}_body`)
 
-        if (testElement.style.display !== 'none') {
+        if (testElement.style.display !== 'none' && (element.target.parentNode.className !== 'item_parent' || element.target.className == 'item_title')) { // if displayed
             testElement.style.display = 'none'
-        } else {
+        } else { // if not displayed
             testElement.style.display = ''
             document.getElementById(`${realElementId}_descriptionField`).focus();
         }
