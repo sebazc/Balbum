@@ -10,7 +10,7 @@
         <h1 id="bar">Balbum</h1>
 
         <div class="buttons">
-            <button id="refresh_button">Refresh</button> 
+            <button id="refresh_button">Refresh</button>
             <button id="open_bm_button">Bookmarks Manager</button>
             <button id="download_page">Download as HTML</button>
             <div style="display: inline;" class="search-container">
@@ -22,13 +22,16 @@
             <div style="display: inline;" class="search-container-comment">
                 <input type="text" id="searchInputComment" placeholder="Search only in comments...">
             </div>
-            <div style="display: inline;" class="only_commented_checkbox">
+            <div id="only_commented_checkbox" style="display: inline;" class="only_commented_checkbox">
                 <label for="only_commented">Only commented</label>
                 <input type="checkbox" id="only_commented" name="only_commented" />
             </div>
-            <div style="display: inline;" class="expand_all_checkbox">
+            <div id="expand_all_checkbox_checkbox" style="display: inline;" class="expand_all_checkbox">
                 <label for="expand_all_checkbox">Expand all</label>
                 <input type="checkbox" id="expand_all_checkbox" name="expand_all_checkbox" />
+            </div>
+            <div id="about_button" style="display: inline;" class="ack_button">
+                <span>About</span>
             </div>
         </div>
     </div>
@@ -39,4 +42,5 @@
 </body>
 <script type="text/javascript" src="options.js"></script>
 <link rel="stylesheet" href="options.css">
+
 </html>

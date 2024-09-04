@@ -64,7 +64,7 @@ document.getElementById("remove_bookmark_button").addEventListener("click", () =
 
 // Update comments textbox 
 document.getElementById("update_description_button").addEventListener("click", () => {
-    description = document.getElementById("description").value
+    description = document.getElementById("description").value // something or empty
 
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => {
         let url = tabs[0].url
@@ -75,6 +75,13 @@ document.getElementById("update_description_button").addEventListener("click", (
             setActivity("Description updated")
         });
     });
+    if (description != "") {
+        chrome.action.setBadgeText({ text: "ok" })
+        chrome.action.setBadgeTextColor({ color: "white" })
+        chrome.action.setBadgeBackgroundColor({ color: "green" })
+    } else {
+        chrome.action.setBadgeText({ text: "" })
+    }
 });
 
 // Open options page from button
@@ -95,7 +102,7 @@ document.getElementById("clear_description_button").addEventListener("click", ()
 function isTabBookmarked() {
     chrome.tabs.query({ active: true, lastFocusedWindow: true }, (tabs) => { // Get current tab url
         let url = tabs[0].url
-        // alert(url)
+        //alert(url)
 
         chrome.bookmarks.search(url, (bookmark) => { // Get current tab bookmark - if any
             let node = bookmark[0]

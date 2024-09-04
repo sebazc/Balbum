@@ -7,6 +7,7 @@ const searchInputTitle = document.querySelector("#searchInputTitle")
 const searchInputComments = document.querySelector("#searchInputComment")
 const onlyCheckbox = document.querySelector("#only_commented")
 const expandAllCheckbox = document.querySelector("#expand_all_checkbox")
+const ack_button = document.querySelector(".ack_button");
 
 const bookmarksList = document.querySelector("#unordered_list") // List of bookmarks in page
 
@@ -255,4 +256,8 @@ expandAllCheckbox.addEventListener("change", () => {
             spanBody.style.display = 'none'
         })
     }
+})
+
+ack_button.addEventListener("click", function () {
+    alert("Balbum is an extension developed using Manifest V3.\n\nSee the repository at https://github.com/sebazc/Balbum.\n\nThis app was improved with recommendations from Estela <3.")
 })

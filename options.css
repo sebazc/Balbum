@@ -52,14 +52,28 @@ body {
     padding-bottom: 10px;
     padding-top: 5px;
     background-color: #f2f2f2;
+    border-radius: 10px;
 }
 
 ul li {
     padding: 4px;
 }
 
-ul li:hover {
+ul li:hover .item_title {
     background-color: #ceebfd;
+    border-radius: 25px;
+    /* padding-left: 5px; */
+    padding-right: 5px;
+}
+
+ul li .item_body:hover {
+    background-color: #ceebfd;
+    border-radius: 10px;
+}
+
+div li:hover .span_folder { 
+    background-color: blueviolet;
+    color: white;
 }
 
 /* body:has(.item_body:hover) ul li:hover {
@@ -70,12 +84,25 @@ ul li:hover {
     background-color: #ceebfd;
 } */
 
+.item_body a {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.item_body a:hover {
+    background-color: yellow;
+    border-radius: 25px;
+}
+
 .section {
     background-color: #f2f2f2;
 }
 
 .span_folder {
     background-color: #FFFF99;
+    border-radius: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 .span_text {
@@ -84,4 +111,25 @@ ul li:hover {
 
 .span_comment {
     font-style: italic;
+}
+
+.ack_button {
+    color: lightgray;
+    /* margin-left: 100px; */
+    text-align: right;
+
+}
+
+.ack_button span:hover {
+    color:black;
+    /* font-weight: bold; */
+    cursor:pointer;
+}
+
+.expand_all_checkbox label:hover {
+    cursor: pointer;
+}
+
+.only_commented_checkbox label:hover{
+    cursor: pointer;
 }
